@@ -3,22 +3,23 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract TokenFarm is Ownable {
     // mapping token address -> staker address -> amount
     mapping(address => mapping(address => uint256)) public stakingBalance;
-    mapping(address => uint256) public uniquetokenStaked; // to find how many different tokens this stake has
+    mapping(address => uint256) public uniqueTokenStaked; // to find how many different tokens this stake has
     mapping(address => address) public tokenPriceFeedMapping; // to map the pricefeed to the associated pricefeed.
-    address[] public allowedtokens;
-    ADDRESS[] public stakers;
+    address[] public allowedTokens;
+    address[] public stakers;
     IERC20 public dapptoken;
 
-    // stakeTokens
+    // stakeTokens - DONE
     // unstakeTokens
-    // issueTokens  -> this is a reward we give to the users for using our our platform
-    // addAllowedtokens
-    // getEthValue
+    // issueTokens  -> this is a reward we give to the users for using our our platform -DONE
+    // addAllowedtokens - DONE
+    // getValue = DONE -()
 
     //REWARDS
     // 100 ETH 1:1 FOR EVERY ONE ETH, WE GIVE 1 DAPP TOKEN
@@ -46,25 +47,27 @@ contract TokenFarm is Ownable {
             uint256 userTotalValue = getUserTotalValue(recipient);
             // send them a token reward
             //based on their total value reward.
+            dapptoken.transfer(recipient, userTotalValue);
         }
     }
 
     function getUserTotalValue(address _user) public view returns (uint256) {
         uint256 totalValue = 0;
-        require(uniquetokenStaked[_user] > 0, "No tokens staked!");
+        require(uniqueTokenStaked[_user] > 0, "No tokens staked!");
 
         for (
-            uint356 allowedTokensIndex = 0;
-            allowedTokensIndex <= allowedtokens.length;
+            uint256 allowedTokensIndex = 0;
+            allowedTokensIndex <= allowedTokens.length;
             allowedTokensIndex++
         ) {
             totalValue =
                 totalValue +
                 getUserSingleTokenValue(
                     _user,
-                    allowedtokens[allowedTokensIndex]
+                    allowedTokens[allowedTokensIndex]
                 );
         }
+        return totalValue;
     }
 
     function getUserSingleTokenValue(address _user, address _token)
@@ -76,16 +79,31 @@ contract TokenFarm is Ownable {
         // if the user staked 1ETH means, we should value and return $2500
         // if the user staked 100DAI means, we should value and retun $100
 
-        if (uniquetokenStaked[_user] <= 0) {
+        if (uniqueTokenStaked[_user] <= 0) {
             return 0;
         }
         // priceOfTheToken * Stakingbalance[_token][user]
-        getTokenValue(_token);
+        (uint256 price, uint256 decimals) = getTokenValue(_token);
+
+        // 10000000000000000000 ETH   ===> (10 eth)
+        // ETH/USD --> 1 0000000000ETH  ====> ( assume $100 each)
+        // value => 10 * 100 = 1000
+        return ((stakingBalance[_token][_user] * price) / (10**decimals));
     }
 
-    function getTokenValue(address _token) public view returns (uint256) {
+    function getTokenValue(address _token)
+        public
+        view
+        returns (uint256, uint256)
+    {
         // priceFeedAddress
         address priceFeedAddress = tokenPriceFeedMapping[_token];
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(
+            priceFeedAddress
+        );
+        (, int256 price, , , ) = priceFeed.latestRoundData();
+        uint256 decimals = uint256(priceFeed.decimals());
+        return (uint256(price), decimals);
     }
 
     function staketokens(uint256 _amount, address _token) public {
@@ -100,28 +118,36 @@ contract TokenFarm is Ownable {
         stakingBalance[_token][msg.sender] =
             stakingBalance[_token][msg.sender] +
             _amount;
-        if (uniquetokenStaked[msg.sender] == 1) {
+        if (uniqueTokenStaked[msg.sender] == 1) {
             stakers.push(msg.sender);
         }
     }
 
+    function unstakeTokens(address _token) public {
+        uint256 balance = stakingBalance[_token][msg.sender];
+        require(balance > 0, "Staking balance cannot be 0.");
+        IERC20(_token).transfer(msg.sender, balance);
+        stakingBalance[_token][msg.sender] = 0;
+        uniqueTokenStaked[msg.sender] = uniqueTokenStaked[msg.sender] - 1;
+    }
+
     function updateUniqueTokensStaked(address _user, address _token) internal {
         if (stakingBalance[_user][_token] <= 0) {
-            uniquetokenStaked[_user] += uniqueTokenStaked[_user];
+            uniqueTokenStaked[_user] = uniqueTokenStaked[_user] + 1;
         }
     }
 
-    function addAllowedtokens(address _token) public onlyOwner {
-        allowedtokens.push(_token);
+    function addAllowedTokens(address _token) public onlyOwner {
+        allowedTokens.push(_token);
     }
 
     function tokenIsAllowed(address _token) public returns (bool) {
         for (
             uint256 allowedTokenIndex = 0;
-            allowedTokenIndex < allowedtokens.length;
+            allowedTokenIndex < allowedTokens.length;
             allowedTokenIndex++
         ) {
-            if (allowedtokens[allowedTokenIndex] == _token) {
+            if (allowedTokens[allowedTokenIndex] == _token) {
                 return true;
             }
         }
