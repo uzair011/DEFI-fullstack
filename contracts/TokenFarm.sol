@@ -9,7 +9,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract TokenFarm is Ownable {
     // mapping token address -> staker address -> amount
     mapping(address => mapping(address => uint256)) public stakingBalance;
-    mapping(address => uint256) public uniqueTokenStaked; // to find how many different tokens this stake has
+    mapping(address => uint256) public uniqueTokensStaked; // to find how many different tokens this stake has
     mapping(address => address) public tokenPriceFeedMapping; // to map the pricefeed to the associated pricefeed.
     address[] public allowedTokens;
     address[] public stakers;
@@ -40,7 +40,7 @@ contract TokenFarm is Ownable {
         // issue tokens to all the staers
         for (
             uint256 stakersIndex = 0;
-            stakersIndex <= stakers.length;
+            stakersIndex < stakers.length;
             stakersIndex++
         ) {
             address recipient = stakers[stakersIndex];
@@ -53,11 +53,11 @@ contract TokenFarm is Ownable {
 
     function getUserTotalValue(address _user) public view returns (uint256) {
         uint256 totalValue = 0;
-        require(uniqueTokenStaked[_user] > 0, "No tokens staked!");
+        require(uniqueTokensStaked[_user] > 0, "No tokens staked!");
 
         for (
             uint256 allowedTokensIndex = 0;
-            allowedTokensIndex <= allowedTokens.length;
+            allowedTokensIndex < allowedTokens.length;
             allowedTokensIndex++
         ) {
             totalValue =
@@ -79,7 +79,7 @@ contract TokenFarm is Ownable {
         // if the user staked 1ETH means, we should value and return $2500
         // if the user staked 100DAI means, we should value and retun $100
 
-        if (uniqueTokenStaked[_user] <= 0) {
+        if (uniqueTokensStaked[_user] <= 0) {
             return 0;
         }
         // priceOfTheToken * Stakingbalance[_token][user]
@@ -106,7 +106,7 @@ contract TokenFarm is Ownable {
         return (uint256(price), decimals);
     }
 
-    function staketokens(uint256 _amount, address _token) public {
+    function stakeTokens(uint256 _amount, address _token) public {
         // what tokens can users stake
         // how mucn can users stake?
 
@@ -118,7 +118,7 @@ contract TokenFarm is Ownable {
         stakingBalance[_token][msg.sender] =
             stakingBalance[_token][msg.sender] +
             _amount;
-        if (uniqueTokenStaked[msg.sender] == 1) {
+        if (uniqueTokensStaked[msg.sender] == 1) {
             stakers.push(msg.sender);
         }
     }
@@ -128,12 +128,12 @@ contract TokenFarm is Ownable {
         require(balance > 0, "Staking balance cannot be 0.");
         IERC20(_token).transfer(msg.sender, balance);
         stakingBalance[_token][msg.sender] = 0;
-        uniqueTokenStaked[msg.sender] = uniqueTokenStaked[msg.sender] - 1;
+        uniqueTokensStaked[msg.sender] = uniqueTokensStaked[msg.sender] - 1;
     }
 
     function updateUniqueTokensStaked(address _user, address _token) internal {
         if (stakingBalance[_user][_token] <= 0) {
-            uniqueTokenStaked[_user] = uniqueTokenStaked[_user] + 1;
+            uniqueTokensStaked[_user] = uniqueTokensStaked[_user] + 1;
         }
     }
 

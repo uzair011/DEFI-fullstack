@@ -25,7 +25,8 @@ contract_to_mock = {
 }
 
 DECIMALS = 18
-INITIAL_VALUE = web3.toWei(2000, "ether")
+# INITIAL_PRICEFEED_VALUE = web3.toWei(2000, "ether")
+INITIAL_PRICEFEED_VALUE = 2000000000000000000000
 BASE_FEE = 100000000000000000  # The premium
 GAS_PRICE_LINK = 1e9  # Some value calculated depending on the Layer 1 cost and Link
 
@@ -90,7 +91,7 @@ def fund_with_link(
     return tx
 
 
-def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_VALUE):
+def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_PRICEFEED_VALUE):
     """
     Use this script if you want to deploy mocks to a testnet
     """
