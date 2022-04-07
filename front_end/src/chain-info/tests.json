@@ -1,0 +1,18 @@
+{
+  "contracts": {
+    "DappToken": "186f2426982f1159b8ab4686327243932c9a8493",
+    "LinkToken": "49e7bae2df618e81d877632c6ad55872ff2ce801",
+    "MockDAI": "d4f20f97c14148a58c1bfbe20f734865cceec1a5",
+    "MockOracle": "7f09d8b642ed1af8d9a3e094ab619f25db4db23c",
+    "MockV3Aggregator": "9e734e161b5cafcca52a917f10266f5a8bc05b28",
+    "MockWETH": "1e53bfac49bcd2b9d7f538a377d75baa4e65b922",
+    "OpenZeppelin/openzeppelin-contracts@4.4.0/ERC20": "5c27d7156fdbfe889902cc167df697405a50ad20",
+    "TokenFarm": "69985a413ef629e94707023f56119653added655",
+    "VRFCoordinatorV2Mock": "4512c68c6f4e0784475d71bb549eda53699d6e8b",
+    "smartcontractkit/chainlink-brownie-contracts@0.4.0/BasicToken": "92084ac5279a2a3db988d9e01d7e6d3e3a4dab8d",
+    "smartcontractkit/chainlink-brownie-contracts@0.4.0/SafeMathChainlink": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "smartcontractkit/chainlink-brownie-contracts@0.4.0/StandardToken": "7f21b0e2f1d1fcf89f4466183c9e73bc3cf77276"
+  },
+  "tests": {},
+  "tx": {}
+}

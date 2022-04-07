@@ -1,19 +1,21 @@
 import React from 'react';
 import { DAppProvider, ChainId } from "@usedapp/core"
 import { Header } from "./Components/Header"
-import { Theme } from '@mui/material/styles';
-
-declare module '@mui/styles/defaultTheme' {
-  interface DefaultTheme extends Theme {}
-}
+import {Container} from "@material-ui/core"
+import { Main } from './Components/Main';
 
 
 function App() {
   return (
     
-     <DAppProvider config={{supportedChains: [ChainId.Rinkeby, ChainId.Kovan, 1337]}}>
+    <DAppProvider config={{
+      supportedChains: [ChainId.Rinkeby, ChainId.Kovan, 1337]
+    }}>
       <Header />
-      <div>HI Uzair</div>
+      <Container maxWidth="md">
+        <div>HI Uzair</div>
+        {/* <Main /> */}
+      </Container>
    </DAppProvider>
   );
 }

@@ -1,6 +1,8 @@
 import { useEthers } from "@usedapp/core"
-import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';
+
+import { Button, makeStyles } from "@material-ui/core"
+
+
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -21,14 +23,14 @@ export const Header = () => {
         <div className={classes.container}>
         <div>
             {isConnected ? (
-                <button color="primary" onClick={deactivate}
+                <Button color="primary" variant="contained" onClick={deactivate}
                 >Disconnect
-                </button>
+                </Button>
             ) : (
-                <button color="primary"
+                <Button color="primary" variant="contained"
                     onClick={() => activateBrowserWallet()}>
                     Connect
-                </button>
+                </Button>
             )}
             </div>
             </div>
