@@ -9,12 +9,12 @@ function App() {
   return (
     
     <DAppProvider config={{
-      supportedChains: [ChainId.Rinkeby, ChainId.Kovan, 1337]
+      // supportedChains: [ChainId.Rinkeby, ChainId.Kovan, 1337]
+      supportedChains: [ChainId.Rinkeby]
     }}>
       <Header />
       <Container maxWidth="md">
-        <div>HI Uzair</div>
-        {/* <Main /> */}
+        <Main /> 
       </Container>
    </DAppProvider>
   );

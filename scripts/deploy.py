@@ -12,7 +12,7 @@ def deploy_token_farm_and_dapp_token(front_end_update=False):
     token_farm = TokenFarm.deploy(
         dapp_token.address,
         {"from": account},
-        publish_source=config["networks"][network.show_active()].get("verify", False),
+        publish_source=config["networks"][network.show_active()]["verify"],
     )
     transfer = dapp_token.transfer(
         token_farm.address, dapp_token.totalSupply() - KEPT_BALANCE, {"from": account}
@@ -28,7 +28,7 @@ def deploy_token_farm_and_dapp_token(front_end_update=False):
     }
 
     add_allowed_tokens(token_farm, dictionary_of_allowed_tokens, account)
-    if update_the_frontend:
+    if front_end_update:
         update_the_frontend()
     return token_farm, dapp_token
 
