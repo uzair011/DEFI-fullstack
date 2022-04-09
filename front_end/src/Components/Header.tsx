@@ -32,7 +32,7 @@ export const Header = () => {
                     Connect
                 </Button>
             )}
-            </div>
-            </div>
+        </div>
+        </div>
     )
 }
