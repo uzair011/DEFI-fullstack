@@ -52,9 +52,7 @@ export const Main = () => {
     ]
 
     return (
-        <>
-            <h2 >Dapp Token App</h2>
-            <YourWallet supportedTokens={supportedTokens} />
-        </>
-    )
+
+            <YourWallet supportedTokens={supportedTokens} />)
+
 }
