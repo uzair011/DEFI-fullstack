@@ -1,5 +1,5 @@
 import React from 'react';
-import { DAppProvider, ChainId } from "@usedapp/core"
+import { DAppProvider, ChainId, Kovan } from "@usedapp/core"
 import { Header } from "./Components/Header"
 import {Container} from "@material-ui/core"
 import { Main } from './Components/Main';
@@ -10,7 +10,9 @@ function App() {
     
     <DAppProvider config={{
       // supportedChains: [ChainId.Rinkeby, ChainId.Kovan, 1337]
-      supportedChains: [ChainId.Rinkeby]
+      //supportedChains: [ChainId.Rinkeby]
+      networks: [Kovan]
+
     }}>
       <Header />
       <Container maxWidth="md">

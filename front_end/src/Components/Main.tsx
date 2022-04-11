@@ -52,7 +52,7 @@ export const Main = () => {
     ]
 
     return (
-
-            <YourWallet supportedTokens={supportedTokens} />)
+        <YourWallet supportedTokens={supportedTokens} />
+    )
 
 }
