@@ -3,16 +3,76 @@
     "DappToken": "186f2426982f1159b8ab4686327243932c9a8493",
     "LinkToken": "49e7bae2df618e81d877632c6ad55872ff2ce801",
     "MockDAI": "d4f20f97c14148a58c1bfbe20f734865cceec1a5",
+    "MockERC20": "a76a17e80ec61ec18ed8fd4f87a9ed109849a985",
     "MockOracle": "7f09d8b642ed1af8d9a3e094ab619f25db4db23c",
     "MockV3Aggregator": "9e734e161b5cafcca52a917f10266f5a8bc05b28",
     "MockWETH": "1e53bfac49bcd2b9d7f538a377d75baa4e65b922",
     "OpenZeppelin/openzeppelin-contracts@4.4.0/ERC20": "5c27d7156fdbfe889902cc167df697405a50ad20",
-    "TokenFarm": "69985a413ef629e94707023f56119653added655",
+    "TokenFarm": "1444166dc727d4198da8f6288dd7c91766d071db",
     "VRFCoordinatorV2Mock": "4512c68c6f4e0784475d71bb549eda53699d6e8b",
     "smartcontractkit/chainlink-brownie-contracts@0.4.0/BasicToken": "92084ac5279a2a3db988d9e01d7e6d3e3a4dab8d",
     "smartcontractkit/chainlink-brownie-contracts@0.4.0/SafeMathChainlink": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
     "smartcontractkit/chainlink-brownie-contracts@0.4.0/StandardToken": "7f21b0e2f1d1fcf89f4466183c9e73bc3cf77276"
   },
-  "tests": {},
-  "tx": {}
+  "tests": {
+    "tests/integration/test_token_farm_integration.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": "s",
+      "sha1": "0e4fe17b80e23c2ae7f1985bc48d47a02f68e718",
+      "txhash": []
+    },
+    "tests/unit/test_token_farm.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": "...E...",
+      "sha1": "d74327dd39b3a4d42be48d2ea3f75036c52f3145",
+      "txhash": [
+        "32ee744c498b9f78d9601e9e8a2e1ff9d0696dcd",
+        "95df0b4a176c394057b17c917cf76afee0c5b377"
+      ]
+    }
+  },
+  "tx": {
+    "32ee744c498b9f78d9601e9e8a2e1ff9d0696dcd": {
+      "TokenFarm": {
+        "0": [
+          [],
+          [],
+          []
+        ],
+        "4": [
+          [],
+          [],
+          []
+        ],
+        "6": [
+          [],
+          [],
+          []
+        ]
+      }
+    },
+    "95df0b4a176c394057b17c917cf76afee0c5b377": {
+      "TokenFarm": {
+        "0": [
+          [],
+          [],
+          []
+        ],
+        "4": [
+          [
+            7
+          ],
+          [],
+          []
+        ],
+        "6": [
+          [],
+          [],
+          []
+        ]
+      }
+    }
+  }
 }
